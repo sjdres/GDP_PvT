@@ -487,33 +487,6 @@
         "Built": "R 4.5.1; ; 2025-08-04 00:20:03 UTC; windows"
       }
     },
-    "crosstalk": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Type": "Package",
-        "Package": "crosstalk",
-        "Title": "Inter-Widget Interactivity for HTML Widgets",
-        "Version": "1.2.2",
-        "Authors@R": "c(\n    person(\"Joe\", \"Cheng\", , \"joe@posit.co\", role = \"aut\"),\n    person(\"Carson\", \"Sievert\", , \"carson@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-4958-2844\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")),\n    person(, \"jQuery Foundation\", role = \"cph\",\n           comment = \"jQuery library and jQuery UI library\"),\n    person(, \"jQuery contributors\", role = c(\"ctb\", \"cph\"),\n           comment = \"jQuery library; authors listed in inst/www/shared/jquery-AUTHORS.txt\"),\n    person(\"Mark\", \"Otto\", role = \"ctb\",\n           comment = \"Bootstrap library\"),\n    person(\"Jacob\", \"Thornton\", role = \"ctb\",\n           comment = \"Bootstrap library\"),\n    person(, \"Bootstrap contributors\", role = \"ctb\",\n           comment = \"Bootstrap library\"),\n    person(, \"Twitter, Inc\", role = \"cph\",\n           comment = \"Bootstrap library\"),\n    person(\"Brian\", \"Reavis\", role = c(\"ctb\", \"cph\"),\n           comment = \"selectize.js library\"),\n    person(\"Kristopher Michael\", \"Kowal\", role = c(\"ctb\", \"cph\"),\n           comment = \"es5-shim library\"),\n    person(, \"es5-shim contributors\", role = c(\"ctb\", \"cph\"),\n           comment = \"es5-shim library\"),\n    person(\"Denis\", \"Ineshin\", role = c(\"ctb\", \"cph\"),\n           comment = \"ion.rangeSlider library\"),\n    person(\"Sami\", \"Samhuri\", role = c(\"ctb\", \"cph\"),\n           comment = \"Javascript strftime library\")\n  )",
-        "Description": "Provides building blocks for allowing HTML widgets to\n    communicate with each other, with Shiny or without (i.e. static .html\n    files). Currently supports linked brushing and filtering.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://rstudio.github.io/crosstalk/,\nhttps://github.com/rstudio/crosstalk",
-        "BugReports": "https://github.com/rstudio/crosstalk/issues",
-        "Imports": "htmltools (>= 0.3.6), jsonlite, lazyeval, R6",
-        "Suggests": "bslib, ggplot2, sass, shiny, testthat (>= 2.1.0)",
-        "Config/Needs/website": "jcheng5/d3scatter, DT, leaflet, rmarkdown",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.2",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-08-26 22:06:47 UTC; cpsievert",
-        "Author": "Joe Cheng [aut],\n  Carson Sievert [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-4958-2844>),\n  Posit Software, PBC [cph, fnd],\n  jQuery Foundation [cph] (jQuery library and jQuery UI library),\n  jQuery contributors [ctb, cph] (jQuery library; authors listed in\n    inst/www/shared/jquery-AUTHORS.txt),\n  Mark Otto [ctb] (Bootstrap library),\n  Jacob Thornton [ctb] (Bootstrap library),\n  Bootstrap contributors [ctb] (Bootstrap library),\n  Twitter, Inc [cph] (Bootstrap library),\n  Brian Reavis [ctb, cph] (selectize.js library),\n  Kristopher Michael Kowal [ctb, cph] (es5-shim library),\n  es5-shim contributors [ctb, cph] (es5-shim library),\n  Denis Ineshin [ctb, cph] (ion.rangeSlider library),\n  Sami Samhuri [ctb, cph] (Javascript strftime library)",
-        "Maintainer": "Carson Sievert <carson@posit.co>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-08-26 23:50:02 UTC",
-        "Built": "R 4.5.1; ; 2025-09-08 01:26:40 UTC; windows"
-      }
-    },
     "curl": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -541,34 +514,6 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-08-19 22:40:02 UTC",
         "Built": "R 4.5.1; x86_64-w64-mingw32; 2025-08-19 23:51:43 UTC; windows",
-        "Archs": "x64"
-      }
-    },
-    "data.table": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "data.table",
-        "Version": "1.17.8",
-        "Title": "Extension of `data.frame`",
-        "Depends": "R (>= 3.3.0)",
-        "Imports": "methods",
-        "Suggests": "bit64 (>= 4.0.0), bit (>= 4.0.4), R.utils, xts, zoo (>=\n1.8-1), yaml, knitr, markdown",
-        "Description": "Fast aggregation of large data (e.g. 100GB in RAM), fast ordered joins, fast add/modify/delete of columns by group using no copies at all, list columns, friendly and fast character-separated-value read/write. Offers a natural and flexible syntax, for faster development.",
-        "License": "MPL-2.0 | file LICENSE",
-        "URL": "https://r-datatable.com, https://Rdatatable.gitlab.io/data.table,\nhttps://github.com/Rdatatable/data.table",
-        "BugReports": "https://github.com/Rdatatable/data.table/issues",
-        "VignetteBuilder": "knitr",
-        "Encoding": "UTF-8",
-        "ByteCompile": "TRUE",
-        "Authors@R": "c(\n  person(\"Tyson\",\"Barrett\",        role=c(\"aut\",\"cre\"), email=\"t.barrett88@gmail.com\", comment = c(ORCID=\"0000-0002-2137-1391\")),\n  person(\"Matt\",\"Dowle\",           role=\"aut\",          email=\"mattjdowle@gmail.com\"),\n  person(\"Arun\",\"Srinivasan\",      role=\"aut\",          email=\"asrini@pm.me\"),\n  person(\"Jan\",\"Gorecki\",          role=\"aut\"),\n  person(\"Michael\",\"Chirico\",      role=\"aut\", comment = c(ORCID=\"0000-0003-0787-087X\")),\n  person(\"Toby\",\"Hocking\",         role=\"aut\", comment = c(ORCID=\"0000-0002-3146-0865\")),\n  person(\"Benjamin\",\"Schwendinger\",role=\"aut\", comment = c(ORCID=\"0000-0003-3315-8114\")),\n  person(\"Ivan\", \"Krylov\",         role=\"aut\",          email=\"ikrylov@disroot.org\",   comment = c(ORCID=\"0000-0002-0172-3812\")),\n  person(\"Pasha\",\"Stetsenko\",      role=\"ctb\"),\n  person(\"Tom\",\"Short\",            role=\"ctb\"),\n  person(\"Steve\",\"Lianoglou\",      role=\"ctb\"),\n  person(\"Eduard\",\"Antonyan\",      role=\"ctb\"),\n  person(\"Markus\",\"Bonsch\",        role=\"ctb\"),\n  person(\"Hugh\",\"Parsonage\",       role=\"ctb\"),\n  person(\"Scott\",\"Ritchie\",        role=\"ctb\"),\n  person(\"Kun\",\"Ren\",              role=\"ctb\"),\n  person(\"Xianying\",\"Tan\",         role=\"ctb\"),\n  person(\"Rick\",\"Saporta\",         role=\"ctb\"),\n  person(\"Otto\",\"Seiskari\",        role=\"ctb\"),\n  person(\"Xianghui\",\"Dong\",        role=\"ctb\"),\n  person(\"Michel\",\"Lang\",          role=\"ctb\"),\n  person(\"Watal\",\"Iwasaki\",        role=\"ctb\"),\n  person(\"Seth\",\"Wenchel\",         role=\"ctb\"),\n  person(\"Karl\",\"Broman\",          role=\"ctb\"),\n  person(\"Tobias\",\"Schmidt\",       role=\"ctb\"),\n  person(\"David\",\"Arenburg\",       role=\"ctb\"),\n  person(\"Ethan\",\"Smith\",          role=\"ctb\"),\n  person(\"Francois\",\"Cocquemas\",   role=\"ctb\"),\n  person(\"Matthieu\",\"Gomez\",       role=\"ctb\"),\n  person(\"Philippe\",\"Chataignon\",  role=\"ctb\"),\n  person(\"Nello\",\"Blaser\",         role=\"ctb\"),\n  person(\"Dmitry\",\"Selivanov\",     role=\"ctb\"),\n  person(\"Andrey\",\"Riabushenko\",   role=\"ctb\"),\n  person(\"Cheng\",\"Lee\",            role=\"ctb\"),\n  person(\"Declan\",\"Groves\",        role=\"ctb\"),\n  person(\"Daniel\",\"Possenriede\",   role=\"ctb\"),\n  person(\"Felipe\",\"Parages\",       role=\"ctb\"),\n  person(\"Denes\",\"Toth\",           role=\"ctb\"),\n  person(\"Mus\",\"Yaramaz-David\",    role=\"ctb\"),\n  person(\"Ayappan\",\"Perumal\",      role=\"ctb\"),\n  person(\"James\",\"Sams\",           role=\"ctb\"),\n  person(\"Martin\",\"Morgan\",        role=\"ctb\"),\n  person(\"Michael\",\"Quinn\",        role=\"ctb\"),\n  person(\"@javrucebo\",\"\",          role=\"ctb\"),\n  person(\"@marc-outins\",\"\",        role=\"ctb\"),\n  person(\"Roy\",\"Storey\",           role=\"ctb\"),\n  person(\"Manish\",\"Saraswat\",      role=\"ctb\"),\n  person(\"Morgan\",\"Jacob\",         role=\"ctb\"),\n  person(\"Michael\",\"Schubmehl\",    role=\"ctb\"),\n  person(\"Davis\",\"Vaughan\",        role=\"ctb\"),\n  person(\"Leonardo\",\"Silvestri\",   role=\"ctb\"),\n  person(\"Jim\",\"Hester\",           role=\"ctb\"),\n  person(\"Anthony\",\"Damico\",       role=\"ctb\"),\n  person(\"Sebastian\",\"Freundt\",    role=\"ctb\"),\n  person(\"David\",\"Simons\",         role=\"ctb\"),\n  person(\"Elliott\",\"Sales de Andrade\", role=\"ctb\"),\n  person(\"Cole\",\"Miller\",          role=\"ctb\"),\n  person(\"Jens Peder\",\"Meldgaard\", role=\"ctb\"),\n  person(\"Vaclav\",\"Tlapak\",        role=\"ctb\"),\n  person(\"Kevin\",\"Ushey\",          role=\"ctb\"),\n  person(\"Dirk\",\"Eddelbuettel\",    role=\"ctb\"),\n  person(\"Tony\",\"Fischetti\",       role=\"ctb\"),\n  person(\"Ofek\",\"Shilon\",          role=\"ctb\"),\n  person(\"Vadim\",\"Khotilovich\",    role=\"ctb\"),\n  person(\"Hadley\",\"Wickham\",       role=\"ctb\"),\n  person(\"Bennet\",\"Becker\",        role=\"ctb\"),\n  person(\"Kyle\",\"Haynes\",          role=\"ctb\"),\n  person(\"Boniface Christian\",\"Kamgang\", role=\"ctb\"),\n  person(\"Olivier\",\"Delmarcell\",   role=\"ctb\"),\n  person(\"Josh\",\"O'Brien\",         role=\"ctb\"),\n  person(\"Dereck\",\"de Mezquita\",   role=\"ctb\"),\n  person(\"Michael\",\"Czekanski\",    role=\"ctb\"),\n  person(\"Dmitry\", \"Shemetov\",     role=\"ctb\"),\n  person(\"Nitish\", \"Jha\",          role=\"ctb\"),\n  person(\"Joshua\", \"Wu\",           role=\"ctb\"),\n  person(\"Iago\", \"Giné-Vázquez\",   role=\"ctb\"),\n  person(\"Anirban\", \"Chetia\",      role=\"ctb\"),\n  person(\"Doris\", \"Amoakohene\",    role=\"ctb\"),\n  person(\"Angel\", \"Feliz\",         role=\"ctb\"),\n  person(\"Michael\",\"Young\",        role=\"ctb\"),\n  person(\"Mark\", \"Seeto\",          role=\"ctb\"),\n  person(\"Philippe\", \"Grosjean\",   role=\"ctb\"),\n  person(\"Vincent\", \"Runge\",       role=\"ctb\"),\n  person(\"Christian\", \"Wia\",       role=\"ctb\"),\n  person(\"Elise\", \"Maigné\",        role=\"ctb\"),\n  person(\"Vincent\", \"Rocher\",      role=\"ctb\"),\n  person(\"Vijay\", \"Lulla\",         role=\"ctb\"),\n  person(\"Aljaž\", \"Sluga\",         role=\"ctb\"),\n  person(\"Bill\", \"Evans\",          role=\"ctb\")\n  )",
-        "NeedsCompilation": "yes",
-        "Packaged": "2025-07-07 16:02:15 UTC; root",
-        "Author": "Tyson Barrett [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-2137-1391>),\n  Matt Dowle [aut],\n  Arun Srinivasan [aut],\n  Jan Gorecki [aut],\n  Michael Chirico [aut] (ORCID: <https://orcid.org/0000-0003-0787-087X>),\n  Toby Hocking [aut] (ORCID: <https://orcid.org/0000-0002-3146-0865>),\n  Benjamin Schwendinger [aut] (ORCID:\n    <https://orcid.org/0000-0003-3315-8114>),\n  Ivan Krylov [aut] (ORCID: <https://orcid.org/0000-0002-0172-3812>),\n  Pasha Stetsenko [ctb],\n  Tom Short [ctb],\n  Steve Lianoglou [ctb],\n  Eduard Antonyan [ctb],\n  Markus Bonsch [ctb],\n  Hugh Parsonage [ctb],\n  Scott Ritchie [ctb],\n  Kun Ren [ctb],\n  Xianying Tan [ctb],\n  Rick Saporta [ctb],\n  Otto Seiskari [ctb],\n  Xianghui Dong [ctb],\n  Michel Lang [ctb],\n  Watal Iwasaki [ctb],\n  Seth Wenchel [ctb],\n  Karl Broman [ctb],\n  Tobias Schmidt [ctb],\n  David Arenburg [ctb],\n  Ethan Smith [ctb],\n  Francois Cocquemas [ctb],\n  Matthieu Gomez [ctb],\n  Philippe Chataignon [ctb],\n  Nello Blaser [ctb],\n  Dmitry Selivanov [ctb],\n  Andrey Riabushenko [ctb],\n  Cheng Lee [ctb],\n  Declan Groves [ctb],\n  Daniel Possenriede [ctb],\n  Felipe Parages [ctb],\n  Denes Toth [ctb],\n  Mus Yaramaz-David [ctb],\n  Ayappan Perumal [ctb],\n  James Sams [ctb],\n  Martin Morgan [ctb],\n  Michael Quinn [ctb],\n  @javrucebo [ctb],\n  @marc-outins [ctb],\n  Roy Storey [ctb],\n  Manish Saraswat [ctb],\n  Morgan Jacob [ctb],\n  Michael Schubmehl [ctb],\n  Davis Vaughan [ctb],\n  Leonardo Silvestri [ctb],\n  Jim Hester [ctb],\n  Anthony Damico [ctb],\n  Sebastian Freundt [ctb],\n  David Simons [ctb],\n  Elliott Sales de Andrade [ctb],\n  Cole Miller [ctb],\n  Jens Peder Meldgaard [ctb],\n  Vaclav Tlapak [ctb],\n  Kevin Ushey [ctb],\n  Dirk Eddelbuettel [ctb],\n  Tony Fischetti [ctb],\n  Ofek Shilon [ctb],\n  Vadim Khotilovich [ctb],\n  Hadley Wickham [ctb],\n  Bennet Becker [ctb],\n  Kyle Haynes [ctb],\n  Boniface Christian Kamgang [ctb],\n  Olivier Delmarcell [ctb],\n  Josh O'Brien [ctb],\n  Dereck de Mezquita [ctb],\n  Michael Czekanski [ctb],\n  Dmitry Shemetov [ctb],\n  Nitish Jha [ctb],\n  Joshua Wu [ctb],\n  Iago Giné-Vázquez [ctb],\n  Anirban Chetia [ctb],\n  Doris Amoakohene [ctb],\n  Angel Feliz [ctb],\n  Michael Young [ctb],\n  Mark Seeto [ctb],\n  Philippe Grosjean [ctb],\n  Vincent Runge [ctb],\n  Christian Wia [ctb],\n  Elise Maigné [ctb],\n  Vincent Rocher [ctb],\n  Vijay Lulla [ctb],\n  Aljaž Sluga [ctb],\n  Bill Evans [ctb]",
-        "Maintainer": "Tyson Barrett <t.barrett88@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-07-10 10:30:05 UTC",
-        "Built": "R 4.5.1; x86_64-w64-mingw32; 2025-08-04 00:19:46 UTC; windows",
         "Archs": "x64"
       }
     },
@@ -801,6 +746,38 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-05-09 23:50:06 UTC",
         "Built": "R 4.4.3; ; 2025-06-06 00:44:39 UTC; windows"
+      }
+    },
+    "ggiraph": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Type": "Package",
+        "Package": "ggiraph",
+        "Title": "Make 'ggplot2' Graphics Interactive",
+        "Version": "0.9.0",
+        "Authors@R": "c(\n    person(\"David\", \"Gohel\", , \"david.gohel@ardata.fr\", role = c(\"aut\", \"cre\")),\n    person(\"Panagiotis\", \"Skintzos\", , \"sigmapi@posteo.net\", role = \"aut\"),\n    person(\"Mike\", \"Bostock\", role = \"cph\",\n           comment = \"d3.js\"),\n    person(\"Speros\", \"Kokenes\", role = \"cph\",\n           comment = \"d3-lasso\"),\n    person(\"Eric\", \"Shull\", role = \"cph\",\n           comment = \"saveSvgAsPng js library\"),\n    person(\"Lee\", \"Thomason\", role = \"cph\",\n           comment = \"TinyXML2\"),\n    person(\"Vladimir\", \"Agafonkin\", role = \"cph\",\n           comment = \"Flatbush\"),\n    person(\"Eric\", \"Book\", role = \"ctb\",\n           comment = \"hline and vline geoms\")\n  )",
+        "Description": "Create interactive 'ggplot2' graphics using 'htmlwidgets'.",
+        "License": "GPL-3",
+        "URL": "https://davidgohel.github.io/ggiraph/",
+        "BugReports": "https://github.com/davidgohel/ggiraph/issues",
+        "Imports": "cli, ggplot2 (>= 3.5.2), grid, htmltools, htmlwidgets (>=\n1.5), purrr, Rcpp (>= 1.0), rlang, stats, systemfonts, uuid,\nvctrs",
+        "Suggests": "dplyr, gdtools (>= 0.3.0), ggrepel (>= 0.9.1), hexbin, knitr,\nmaps, quantreg, rmarkdown, sf (>= 1.0), shiny, tinytest, xml2\n(>= 1.0)",
+        "LinkingTo": "Rcpp, systemfonts",
+        "VignetteBuilder": "knitr",
+        "Copyright": "See file COPYRIGHTS.",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "SystemRequirements": "libpng",
+        "Collate": "'RcppExports.R' 'ipar.R' 'utils_ggplot2_performance.R'\n'utils_ggplot2.R' 'utils.R' 'annotate_interactive.R'\n'annotation_raster_interactive.R' 'utils_css.R' 'fonts.R'\n'girafe_options.R' 'default.R' 'dsvg.R' 'dsvg_view.R'\n'element_interactive.R' 'facet_interactive.R'\n'geom_abline_interactive.R' 'geom_path_interactive.R'\n'geom_polygon_interactive.R' 'geom_rect_interactive.R'\n'geom_bar_interactive.R' 'geom_bin_2d_interactive.R'\n'geom_boxplot_interactive.R' 'geom_col_interactive.R'\n'geom_contour_interactive.R' 'geom_count_interactive.R'\n'geom_crossbar_interactive.R' 'geom_curve_interactive.R'\n'geom_density_2d_interactive.R' 'geom_density_interactive.R'\n'geom_dotplot_interactive.R' 'geom_errorbar_interactive.R'\n'geom_errorbarh_interactive.R' 'geom_freqpoly_interactive.R'\n'geom_hex_interactive.R' 'geom_histogram_interactive.R'\n'geom_hline_interactive.R' 'geom_jitter_interactive.R'\n'geom_label_interactive.R' 'geom_linerange_interactive.R'\n'geom_map_interactive.R' 'geom_point_interactive.R'\n'geom_pointrange_interactive.R' 'geom_quantile_interactive.R'\n'geom_raster_interactive.R' 'geom_ribbon_interactive.R'\n'geom_segment_interactive.R' 'geom_sf_interactive.R'\n'geom_smooth_interactive.R' 'geom_spoke_interactive.R'\n'geom_text_interactive.R' 'geom_text_repel_interactive.R'\n'geom_tile_interactive.R' 'geom_violin_interactive.R'\n'geom_vline_interactive.R' 'ggiraph.R' 'girafe.R'\n'grob_interactive.R' 'guide_bins_interactive.R'\n'guide_colourbar_interactive.R'\n'guide_coloursteps_interactive.R' 'guide_interactive.R'\n'guide_legend_interactive.R' 'interactive_circle_grob.R'\n'interactive_curve_grob.R' 'interactive_path_grob.R'\n'interactive_points_grob.R' 'interactive_polygon_grob.R'\n'interactive_polyline_grob.R' 'interactive_raster_grob.R'\n'interactive_rect_grob.R' 'interactive_roundrect_grob.R'\n'interactive_segments_grob.R' 'interactive_text_grob.R'\n'labeller_interactive.R' 'layer_interactive.R'\n'scale_alpha_interactive.R' 'scale_brewer_interactive.R'\n'scale_colour_interactive.R' 'scale_gradient_interactive.R'\n'scale_interactive.R' 'scale_linetype_interactive.R'\n'scale_manual_interactive.R' 'scale_shape_interactive.R'\n'scale_size_interactive.R' 'scale_steps_interactive.R'\n'scale_viridis_interactive.R' 'tracers.R'",
+        "NeedsCompilation": "yes",
+        "Packaged": "2025-08-18 17:01:04 UTC; davidgohel",
+        "Author": "David Gohel [aut, cre],\n  Panagiotis Skintzos [aut],\n  Mike Bostock [cph] (d3.js),\n  Speros Kokenes [cph] (d3-lasso),\n  Eric Shull [cph] (saveSvgAsPng js library),\n  Lee Thomason [cph] (TinyXML2),\n  Vladimir Agafonkin [cph] (Flatbush),\n  Eric Book [ctb] (hline and vline geoms)",
+        "Maintainer": "David Gohel <david.gohel@ardata.fr>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-08-18 18:20:02 UTC",
+        "Built": "R 4.5.1; x86_64-w64-mingw32; 2025-08-19 23:52:35 UTC; windows",
+        "Archs": "x64"
       }
     },
     "ggplot2": {
@@ -1302,31 +1279,6 @@
         "Archs": "x64"
       }
     },
-    "lazyeval": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "lazyeval",
-        "Version": "0.2.2",
-        "Title": "Lazy (Non-Standard) Evaluation",
-        "Description": "An alternative approach to non-standard evaluation using\n    formulas. Provides a full implementation of LISP style 'quasiquotation',\n    making it easier to generate code with other code.",
-        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", ,\"hadley@rstudio.com\", c(\"aut\", \"cre\")),\n    person(\"RStudio\", role = \"cph\")\n    )",
-        "License": "GPL-3",
-        "LazyData": "true",
-        "Depends": "R (>= 3.1.0)",
-        "Suggests": "knitr, rmarkdown (>= 0.2.65), testthat, covr",
-        "VignetteBuilder": "knitr",
-        "RoxygenNote": "6.1.1",
-        "NeedsCompilation": "yes",
-        "Packaged": "2019-03-15 14:18:01 UTC; lionel",
-        "Author": "Hadley Wickham [aut, cre],\n  RStudio [cph]",
-        "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2019-03-15 17:50:07 UTC",
-        "Built": "R 4.5.1; x86_64-w64-mingw32; 2025-09-08 00:25:32 UTC; windows",
-        "Archs": "x64"
-      }
-    },
     "lifecycle": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -1605,39 +1557,6 @@
         "Repository": "CRAN",
         "Date/Publication": "2019-09-22 09:20:02 UTC",
         "Built": "R 4.4.1; ; 2024-08-02 00:32:26 UTC; windows"
-      }
-    },
-    "plotly": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "plotly",
-        "Title": "Create Interactive Web Graphics via 'plotly.js'",
-        "Version": "4.11.0",
-        "Authors@R": "c(person(\"Carson\", \"Sievert\", role = c(\"aut\", \"cre\"),\n    email = \"cpsievert1@gmail.com\", comment = c(ORCID = \"0000-0002-4958-2844\")),\n    person(\"Chris\", \"Parmer\", role = \"aut\",\n    email = \"chris@plot.ly\"),\n    person(\"Toby\", \"Hocking\", role = \"aut\",\n    email = \"tdhock5@gmail.com\"),\n    person(\"Scott\", \"Chamberlain\", role = \"aut\",\n    email = \"myrmecocystus@gmail.com\"),\n    person(\"Karthik\", \"Ram\", role = \"aut\",\n    email = \"karthik.ram@gmail.com\"),\n    person(\"Marianne\", \"Corvellec\", role = \"aut\",\n    email = \"marianne.corvellec@igdore.org\", comment = c(ORCID = \"0000-0002-1994-3581\")),\n    person(\"Pedro\", \"Despouy\", role = \"aut\",\n    email = \"pedro@plot.ly\"),\n    person(\"Salim\", \"Brüggemann\", role = \"ctb\",\n    email = \"salim-b@pm.me\", comment = c(ORCID = \"0000-0002-5329-5987\")),\n    person(\"Plotly Technologies Inc.\", role = \"cph\"))",
-        "License": "MIT + file LICENSE",
-        "Description": "Create interactive web graphics from 'ggplot2' graphs and/or a custom interface to the (MIT-licensed) JavaScript library 'plotly.js' inspired by the grammar of graphics.",
-        "URL": "https://plotly-r.com, https://github.com/plotly/plotly.R,\nhttps://plotly.com/r/",
-        "BugReports": "https://github.com/plotly/plotly.R/issues",
-        "Depends": "R (>= 3.2.0), ggplot2 (>= 3.0.0)",
-        "Imports": "tools, scales, httr (>= 1.3.0), jsonlite (>= 1.6), magrittr,\ndigest, viridisLite, base64enc, htmltools (>= 0.3.6),\nhtmlwidgets (>= 1.5.2.9001), tidyr (>= 1.0.0), RColorBrewer,\ndplyr, vctrs, tibble, lazyeval (>= 0.2.0), rlang (>= 1.0.0),\ncrosstalk, purrr, data.table, promises",
-        "Suggests": "MASS, maps, hexbin, ggthemes, GGally, ggalluvial, testthat,\nknitr, shiny (>= 1.1.0), shinytest2, curl, rmarkdown, Cairo,\nbroom, webshot, listviewer, dendextend, sf, png, IRdisplay,\nprocessx, plotlyGeoAssets, forcats, withr, palmerpenguins,\nrversions, reticulate, rsvg, ggridges",
-        "LazyData": "true",
-        "RoxygenNote": "7.3.2",
-        "Encoding": "UTF-8",
-        "Config/Needs/check": "tidyverse/ggplot2, ggobi/GGally, rcmdcheck,\ndevtools, reshape2, s2",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-06-19 15:43:06 UTC; cpsievert",
-        "Author": "Carson Sievert [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-4958-2844>),\n  Chris Parmer [aut],\n  Toby Hocking [aut],\n  Scott Chamberlain [aut],\n  Karthik Ram [aut],\n  Marianne Corvellec [aut] (ORCID:\n    <https://orcid.org/0000-0002-1994-3581>),\n  Pedro Despouy [aut],\n  Salim Brüggemann [ctb] (ORCID: <https://orcid.org/0000-0002-5329-5987>),\n  Plotly Technologies Inc. [cph]",
-        "Maintainer": "Carson Sievert <cpsievert1@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-06-19 18:30:02 UTC",
-        "Built": "R 4.5.1; ; 2025-09-11 13:23:34 UTC; windows",
-        "RemoteType": "standard",
-        "RemotePkgRef": "plotly",
-        "RemoteRef": "plotly",
-        "RemoteRepos": "https://cran.rstudio.com",
-        "RemoteSha": "4.11.0"
       }
     },
     "prettyunits": {
@@ -2142,6 +2061,40 @@
         "Archs": "x64"
       }
     },
+    "systemfonts": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Type": "Package",
+        "Package": "systemfonts",
+        "Title": "System Native Font Finding",
+        "Version": "1.2.3",
+        "Authors@R": "c(\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-5147-4711\")),\n    person(\"Jeroen\", \"Ooms\", , \"jeroen@berkeley.edu\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-4035-0289\")),\n    person(\"Devon\", \"Govett\", role = \"aut\",\n           comment = \"Author of font-manager\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"),\n           comment = c(ROR = \"03wc8by49\"))\n  )",
+        "Description": "Provides system native access to the font catalogue. As font\n    handling varies between systems it is difficult to correctly locate\n    installed fonts across different operating systems. The 'systemfonts'\n    package provides bindings to the native libraries on Windows, macOS\n    and Linux for finding font files that can then be used further by e.g.\n    graphic devices. The main use is intended to be from compiled code but\n    'systemfonts' also provides access from R.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://github.com/r-lib/systemfonts,\nhttps://systemfonts.r-lib.org",
+        "BugReports": "https://github.com/r-lib/systemfonts/issues",
+        "Depends": "R (>= 3.2.0)",
+        "Imports": "base64enc, grid, jsonlite, lifecycle, tools, utils",
+        "Suggests": "covr, farver, graphics, knitr, rmarkdown, testthat (>= 2.1.0)",
+        "LinkingTo": "cpp11 (>= 0.2.1)",
+        "VignetteBuilder": "knitr",
+        "Config/build/compilation-database": "true",
+        "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/usethis/last-upkeep": "2025-04-23",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "SystemRequirements": "fontconfig, freetype2",
+        "NeedsCompilation": "yes",
+        "Packaged": "2025-04-30 17:13:44 UTC; thomas",
+        "Author": "Thomas Lin Pedersen [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-5147-4711>),\n  Jeroen Ooms [aut] (ORCID: <https://orcid.org/0000-0002-4035-0289>),\n  Devon Govett [aut] (Author of font-manager),\n  Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
+        "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-04-30 17:50:02 UTC",
+        "Built": "R 4.4.3; x86_64-w64-mingw32; 2025-06-06 01:27:53 UTC; windows",
+        "Archs": "x64"
+      }
+    },
     "tibble": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -2348,6 +2301,29 @@
         "Repository": "CRAN",
         "Date/Publication": "2025-06-08 19:00:02 UTC",
         "Built": "R 4.4.3; x86_64-w64-mingw32; 2025-06-08 23:50:53 UTC; windows",
+        "Archs": "x64"
+      }
+    },
+    "uuid": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Package": "uuid",
+        "Version": "1.2-1",
+        "Title": "Tools for Generating and Handling of UUIDs",
+        "Author": "Simon Urbanek [aut, cre, cph] (https://urbanek.org,\n    <https://orcid.org/0000-0003-2297-1732>),\n  Theodore Ts'o [aut, cph] (libuuid)",
+        "Maintainer": "Simon Urbanek <Simon.Urbanek@r-project.org>",
+        "Authors@R": "c(person(\"Simon\", \"Urbanek\", role=c(\"aut\",\"cre\",\"cph\"), email=\"Simon.Urbanek@r-project.org\", comment=c(\"https://urbanek.org\", ORCID=\"0000-0003-2297-1732\")), person(\"Theodore\",\"Ts'o\", email=\"tytso@thunk.org\", role=c(\"aut\",\"cph\"), comment=\"libuuid\"))",
+        "Depends": "R (>= 2.9.0)",
+        "Description": "Tools for generating and handling of UUIDs (Universally Unique Identifiers).",
+        "License": "MIT + file LICENSE",
+        "URL": "https://www.rforge.net/uuid",
+        "BugReports": "https://github.com/s-u/uuid/issues",
+        "NeedsCompilation": "yes",
+        "Packaged": "2024-07-29 03:16:54 UTC; rforge",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-07-29 07:09:22 UTC",
+        "Built": "R 4.5.0; x86_64-w64-mingw32; 2025-04-08 00:43:45 UTC; windows",
         "Archs": "x64"
       }
     },
@@ -2640,7 +2616,7 @@
   },
   "files": {
     "app.R": {
-      "checksum": "8c6a849e4923e6a934549d16fa6063cf"
+      "checksum": "f14212565f948a7ac75e57489e62b40f"
     },
     "README.md": {
       "checksum": "39962ffc4ff907e4a8064be7b2a70f88"

@@ -17,12 +17,24 @@ library(pdfetch)
 library(mFilter)
 library(xts)
 library(zoo)
-library(plotly)
+library(ggiraph)
 
 # Step 1: Load the Data
 DAT1 <- pdfetch_FRED(c("GDPPOT","GDPC1","JHDUSRGDPBR"))
 DAT1 <- na.omit(DAT1["1970/"])
 DAT1 <- DAT1[complete.cases(DAT1[ ,'GDPC1']), ]
+
+start <- index(DAT1$JHDUSRGDPBR[which(diff(DAT1$JHDUSRGDPBR)==1)])
+end   <- index(DAT1$JHDUSRGDPBR[which(diff(DAT1$JHDUSRGDPBR)==-1)-1])
+if (length(end) - length(start) == 1) {
+  end <- end[-1]
+}
+if (length(start) - length(end) == 1) {
+  start <- start[-1]
+}
+
+  recession <- data.frame(start=start, end=end)
+
 DAT1 <- fortify.zoo(DAT1)
 quarter_labels <- format(as.yearqtr(DAT1$Index), "%Y Q%q")
 
@@ -32,14 +44,12 @@ HP = hpfilter(DAT1$GDPC1,freq = 1600)
   
   DAT1 <- cbind(DAT1,HP_components)
   DAT1$POTGAP <- DAT1$GDPC1 - DAT1$GDPPOT
-  
-  trend <- lm(log(DAT1$GDPC1) ~ seq(1,nrow(DAT1),1))
-  Ltrend <- exp(fitted(trend))
-  Lcycle <- DAT1$GDPC1 - Ltrend
-  
-#DAT1 <- as.xts(cbind(DAT1,Ltrend,Lcycle))
-  DAT1 <- cbind(DAT1,Ltrend,Lcycle)
 
+  rec_dates <- data.frame(
+    start = as.Date(c("1970-03-31", "1973-12-31", "1979-06-30", "1981-06-30", "1989-12-31", "2001-03-31", "2007-12-31", "2020-03-31")),
+    end = as.Date(c("1970-12-31", "1975-03-31", "1980-03-31", "1982-06-30", "1991-03-31", "2001-09-30", "2009-06-30", "2020-06-30"))
+  )
+  
 # Step 2: the UI (user-interface)
 ui <- page_navbar(
   
@@ -65,24 +75,16 @@ ui <- page_navbar(
       selected = quarter_labels[1] # Default to first date
     ),
     
-    checkboxGroupInput(
-      "Trendz",
-      "Definition of Long Run:",
-      c(
-        "Potential GDP" = "LR1",
-        "Trend (Linear)"  = "LR2",
-        "Trend (HP)"      = "LR3"
-      )
-    ),
     
     p("(Dressler and Granera, 2025)")
     
     ),
-  nav_panel("Output and Long Run", 
-            #plotOutput("PLOT1", click = "click_info")),
-            plotlyOutput("PLOT1")),
+  nav_panel("Long-Run Trends",
+            girafeOutput("PLOT1", width = 800, height = 800)),
   
-  nav_panel("Short-Run Output", "Page 2 content")
+  nav_panel("Short-Run Cycles", 
+            girafeOutput("PLOT2", width = 800, height = 800))
+  
 ) # end page_navbar
 
 # Define server 
@@ -103,25 +105,25 @@ server <- function(input, output, session) {
                      selected = quarter_labels2[1])
     })
   
-  #
-  #output$PLOT1 <- renderPlot({
-  output$PLOT1 <- renderPlotly({
+
+  output$PLOT1 <- renderGirafe({
     
     mindate <- which(quarter_labels == input$quarter_range[1])
     maxdate <- which(quarter_labels == input$quarter_range[2])
-    vdate   <- which(quarter_labels[mindate:maxdate] == input$quarter_date)
     
     DAT2 <- as.data.frame(DAT1[mindate:maxdate, ])
+    
+    vdate   <- which(quarter_labels[mindate:maxdate] == input$quarter_date)
     PTS2 <- as.data.frame(DAT2[vdate, ])
     
-    p <-  ggplot(DAT2) + 
-      geom_line(aes(x = Index,y = GDPC1, color = "GDP"), linewidth = 1) +
-      geom_line(aes(x = Index,y = GDPPOT, color = "Potential GDP"), linewidth = 1) + 
-      geom_line(aes(x = Index,y = HPtrend, color = "Trend GDP"), linewidth = 1) +
-      geom_vline(xintercept = DAT2$Index[vdate], linetype = "dotted") + 
-      geom_point(data = PTS2, aes(x = Index, y = GDPC1)) + 
-      geom_point(data = PTS2, aes(x = Index, y = GDPPOT)) +
-      geom_point(data = PTS2, aes(x = Index, y = HPtrend)) +
+    p <-  ggplot() + 
+      geom_line(data = DAT2, aes(x = Index,y = GDPC1, color = "GDP"), linewidth = 0.5) +
+      geom_line(data = DAT2, aes(x = Index,y = GDPPOT, color = "Potential GDP"), linewidth = 0.5) + 
+      geom_line(data = DAT2, aes(x = Index,y = HPtrend, color = "Trend GDP"), linewidth = 0.5) +
+      geom_rect(data = recession, 
+                aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf),
+                fill = "blue", alpha = 0.15) + 
+      xlim(DAT1$Index[mindate],DAT1$Index[maxdate]) +
       labs(
         title = "Real Gross Domestic Product",
         caption = "Source: Federal Reserve Bank of St. Louis Database (FRED)",
@@ -130,19 +132,53 @@ server <- function(input, output, session) {
                          values=c('GDP' = 'black',
                                   'Potential GDP' = 'darkred',
                                   'Trend GDP' = 'steelblue')) +
-      theme_grey() + 
-      theme(legend.title = element_blank(),legend.position = "bottom")
+      theme_grey() +
+      theme(legend.title = element_blank(), legend.position = "inside", 
+            legend.position.inside = c(.2,.85)) + 
+      geom_vline_interactive(xintercept = DAT2$Index[vdate], linetype = "dotted") + 
+      geom_point_interactive(data = PTS2, aes(x = Index, y = GDPC1, tooltip = round(GDPC1,2), data_id = GDPC1)) + 
+      geom_point_interactive(data = PTS2, aes(x = Index, y = GDPPOT, tooltip = round(GDPPOT,2), data_id = GDPPOT)) +
+      geom_point_interactive(data = PTS2, aes(x = Index, y = HPtrend, tooltip = round(HPtrend,2), data_id = HPtrend)) 
     
-    # Add vline if a click event occurred
-    #if (!is.null(input$click_info)) {
-    #  p <- p + geom_vline(xintercept = input$click_info$x, color = "blue", linetype = "dotted")
-    #}
-    #p
-    
-    ggplotly(p)
+     girafe(ggobj = p)
     
   })
   
+  output$PLOT2 <- renderGirafe({
+    
+    mindate <- which(quarter_labels == input$quarter_range[1])
+    maxdate <- which(quarter_labels == input$quarter_range[2])
+    
+    DAT2 <- as.data.frame(DAT1[mindate:maxdate, ])
+    
+    vdate   <- which(quarter_labels[mindate:maxdate] == input$quarter_date)
+    PTS2 <- as.data.frame(DAT2[vdate, ])
+    
+    p2 <-  ggplot() + 
+      geom_line(data = DAT2, aes(x = Index,y = POTGAP, color = "GDP - Potential"), linewidth = 0.5) + 
+      geom_line(data = DAT2, aes(x = Index,y = HPcycle, color = "GDP - Trend"), linewidth = 0.5) +
+      geom_hline(yintercept = 0, linetype = "dashed") + 
+      geom_rect(data = recession, 
+                aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf),
+                fill = "blue", alpha = 0.15) + 
+      xlim(DAT1$Index[mindate],DAT1$Index[maxdate]) + 
+      labs(
+        title = "Real Gross Domestic Product",
+        caption = "Source: Federal Reserve Bank of St. Louis Database (FRED)",
+        x = "", y = "Billions of Chained 2017 Dollars") + 
+      scale_color_manual(breaks=c('GDP - Potential','GDP - Trend'),
+                         values=c('GDP - Potential' = 'darkred',
+                                  'GDP - Trend' = 'steelblue')) +
+      theme_grey() +
+      theme(legend.title = element_blank(), legend.position = "inside", 
+                          legend.position.inside = c(.2,.1)) + 
+      geom_vline_interactive(xintercept = DAT2$Index[vdate], linetype = "dotted") + 
+      geom_point_interactive(data = PTS2, aes(x = Index, y = POTGAP, tooltip = round(POTGAP,2), data_id = POTGAP)) + 
+      geom_point_interactive(data = PTS2, aes(x = Index, y = HPcycle, tooltip = round(HPcycle,2), data_id = HPcycle)) 
+    
+    girafe(ggobj = p2)
+    
+  })
   
   
 }
