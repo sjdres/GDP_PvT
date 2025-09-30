@@ -26,36 +26,27 @@ DAT1 <- DAT1[complete.cases(DAT1[ ,'GDPC1']), ]
 
 start <- index(DAT1$JHDUSRGDPBR[which(diff(DAT1$JHDUSRGDPBR)==1)])
 end   <- index(DAT1$JHDUSRGDPBR[which(diff(DAT1$JHDUSRGDPBR)==-1)-1])
-if (length(end) - length(start) == 1) {
-  end <- end[-1]
-}
-if (length(start) - length(end) == 1) {
-  start <- start[-1]
-}
-
+  if (length(end) - length(start) == 1) { end <- end[-1] }
+  if (length(start) - length(end) == 1) { start <- start[-1] }
   recession <- data.frame(start=start, end=end)
 
 DAT1 <- fortify.zoo(DAT1)
-quarter_labels <- format(as.yearqtr(DAT1$Index), "%Y Q%q")
+  quarter_labels <- format(as.yearqtr(DAT1$Index), "%Y Q%q")
 
-HP = hpfilter(DAT1$GDPC1,freq = 1600)
-  HP_components <- cbind(HP$trend, HP$cycle)
-  colnames(HP_components) <- c("HPtrend","HPcycle")
+HP <- hpfilter(DAT1$GDPC1,freq = 1600)
+HP1 <- hpfilter(DAT1$GDPC1,freq = 400000)
+  HP_components <- cbind(HP$trend, HP$cycle,HP1$trend, HP1$cycle)
+  colnames(HP_components) <- c("HPtrend","HPcycle","HPtrendC","HPcycleC")
   
   DAT1 <- cbind(DAT1,HP_components)
   DAT1$POTGAP <- DAT1$GDPC1 - DAT1$GDPPOT
 
-  rec_dates <- data.frame(
-    start = as.Date(c("1970-03-31", "1973-12-31", "1979-06-30", "1981-06-30", "1989-12-31", "2001-03-31", "2007-12-31", "2020-03-31")),
-    end = as.Date(c("1970-12-31", "1975-03-31", "1980-03-31", "1982-06-30", "1991-03-31", "2001-09-30", "2009-06-30", "2020-06-30"))
-  )
-  
 # Step 2: the UI (user-interface)
 ui <- page_navbar(
   
   theme = bs_theme(version = 5),
   
-  title = "Potential, Trend, and Current RGDP",
+  title = "Long-Run and Short-Run Output",
   
   sidebar = sidebar(
     
@@ -75,23 +66,70 @@ ui <- page_navbar(
       selected = quarter_labels[1] # Default to first date
     ),
     
+    # Select LR Option(s)
+    checkboxGroupInput(
+      inputId = "LR_choice",
+      label = "Select Long-Run Identification:",
+      choices = c("Potential GDP" = "POT",
+                  "Quarterly Trend" = "HPT",
+                  "Credit Trend" = "HPTC"),
+      selected = c("POT")
+    ),
     
-    p("(Dressler and Granera, 2025)")
+ p("(Dressler and Granera, 2025)")
     
     ),
-  nav_panel("Long-Run Trends",
-            girafeOutput("PLOT1", width = 800, height = 800)),
   
-  nav_panel("Short-Run Cycles", 
-            girafeOutput("PLOT2", width = 800, height = 800))
+  nav_spacer(),   
   
-) # end page_navbar
+  nav_panel("Long-Run Analysis", 
+            girafeOutput("PLOT1")),
+ 
+  nav_panel("Short-Run Analysis", 
+           girafeOutput("PLOT2"))
+  
+  ) # end page_navbar
+
 
 # Define server 
 server <- function(input, output, session) {
   
-  # Update Slider Info:
+# Reactive values to store filtered data and avoid recalculation
+  filtered_data <- reactive({
+    req(input$quarter_range)
+    
+    mindate_idx <- match(input$quarter_range[1], quarter_labels)
+    maxdate_idx <- match(input$quarter_range[2], quarter_labels)
+    
+    # Handle case where match() returns NA
+    if(is.na(mindate_idx)) mindate_idx <- 1
+    if(is.na(maxdate_idx)) maxdate_idx <- length(quarter_labels)
+    
+    DAT1[mindate_idx:maxdate_idx, ]
+  })
+  
+  filtered_quarter_labels <- reactive({
+    req(input$quarter_range)
+    
+    mindate_idx <- match(input$quarter_range[1], quarter_labels)
+    maxdate_idx <- match(input$quarter_range[2], quarter_labels)
+    
+    # Handle case where match() returns NA
+    if(is.na(mindate_idx)) mindate_idx <- 1
+    if(is.na(maxdate_idx)) maxdate_idx <- length(quarter_labels)
+    
+    quarter_labels[mindate_idx:maxdate_idx]
+  })
+  
+  LTID <- reactive({
+    LR_choice <- input$LR_choice
+  })
+  
+# Update Slider Info:
   observeEvent(input$quarter_range, {
+    
+    req(input$quarter_range)
+    
     # Get the selected min and max from the first slider
     min_val <- as.yearqtr(input$quarter_range[1], format = "%Y Q%q")
     max_val <- as.yearqtr(input$quarter_range[2], format = "%Y Q%q")
@@ -104,82 +142,145 @@ server <- function(input, output, session) {
                      choices = quarter_labels2,
                      selected = quarter_labels2[1])
     })
-  
 
+# LR Plot:  
   output$PLOT1 <- renderGirafe({
     
-    mindate <- which(quarter_labels == input$quarter_range[1])
-    maxdate <- which(quarter_labels == input$quarter_range[2])
+    DAT2 <- filtered_data()
+    labels <- filtered_quarter_labels()
+    LR_choice <- LTID()
     
-    DAT2 <- as.data.frame(DAT1[mindate:maxdate, ])
+    req(input$quarter_date)
+    vdate_idx <- match(input$quarter_date, labels)
+    if(is.na(vdate_idx)) vdate_idx <- 1  # fallback
+    PTS2 <- DAT2[vdate_idx, ]
     
-    vdate   <- which(quarter_labels[mindate:maxdate] == input$quarter_date)
-    PTS2 <- as.data.frame(DAT2[vdate, ])
+    breaks1 <- c("Real GDP")
+    values1 <- c("Real GDP" = 'black')
     
-    p <-  ggplot() + 
-      geom_line(data = DAT2, aes(x = Index,y = GDPC1, color = "GDP"), linewidth = 0.5) +
-      geom_line(data = DAT2, aes(x = Index,y = GDPPOT, color = "Potential GDP"), linewidth = 0.5) + 
-      geom_line(data = DAT2, aes(x = Index,y = HPtrend, color = "Trend GDP"), linewidth = 0.5) +
+    p <- ggplot() + 
+      geom_line(data = DAT2, aes(x = Index, y = GDPC1, color = 'Real GDP'), linewidth = 0.5) +
+      geom_vline_interactive(xintercept = DAT2$Index[vdate_idx], linetype = "dotted") + 
+      geom_point_interactive(data = PTS2, aes(x = Index, y = GDPC1, tooltip = paste("Real GDP", "<br>Value:", round(GDPC1,2)), data_id = GDPC1), color = "black")
+
+    if ("POT" %in% LR_choice) {
+      p <- p + 
+        geom_line(data = DAT2, aes(x = Index, y = GDPPOT, color = 'Potential GDP'), linewidth = 0.5) + 
+        geom_point_interactive(data = PTS2, aes(x = Index, y = GDPPOT, tooltip = paste("Potential GDP", "<br>Value:", round(GDPPOT,2)), data_id = GDPPOT), color = "darkred")
+      
+      breaks1 <- c(breaks1,"Potential GDP")
+      values1 <- c(values1,"Potential GDP" = "darkred")
+          }
+    if ("HPT" %in% LR_choice) {
+      p <- p + 
+        geom_line(data = DAT2, aes(x = Index, y = HPtrend, color = 'Quarterly Trend'), linewidth = 0.5) +
+        geom_point_interactive(data = PTS2, aes(x = Index, y = HPtrend, tooltip = paste("Quarterly Trend", "<br>Value:", round(HPtrend,2)), data_id = HPtrend), color = "steelblue")
+      
+      breaks1 <- c(breaks1,"Quarterly Trend")
+      values1 <- c(values1,"Quarterly Trend" = "steelblue")
+    }
+    if ("HPTC" %in% LR_choice) {
+      p <- p + 
+        geom_line(data = DAT2, aes(x = Index, y = HPtrendC, color = 'Credit Trend'), linewidth = 0.5) +
+        geom_point_interactive(data = PTS2, aes(x = Index, y = HPtrendC, tooltip = paste("Credit Trend", "<br>Value:", round(HPtrendC,2)), data_id = HPtrendC), color = "springgreen")
+      
+      breaks1 <- c(breaks1,"Credit Trend")
+      values1 <- c(values1,"Credit Trend" = "springgreen")
+    }
+    
+    p <- p +
       geom_rect(data = recession, 
                 aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf),
                 fill = "blue", alpha = 0.15) + 
-      xlim(DAT1$Index[mindate],DAT1$Index[maxdate]) +
+      xlim(DAT2$Index[1], DAT2$Index[nrow(DAT2)]) +
+      scale_color_manual(name = "Data Lines:", breaks = breaks1, values = values1) +
       labs(
         title = "Real Gross Domestic Product",
         caption = "Source: Federal Reserve Bank of St. Louis Database (FRED)",
-        x = "", y = "Billions of Chained 2017 Dollars") + 
-      scale_color_manual(breaks=c('GDP','Potential GDP','Trend GDP'),
-                         values=c('GDP' = 'black',
-                                  'Potential GDP' = 'darkred',
-                                  'Trend GDP' = 'steelblue')) +
+        x = "", y = "Billions of Chained 2017 Dollars") +
       theme_grey() +
       theme(legend.title = element_blank(), legend.position = "inside", 
-            legend.position.inside = c(.2,.85)) + 
-      geom_vline_interactive(xintercept = DAT2$Index[vdate], linetype = "dotted") + 
-      geom_point_interactive(data = PTS2, aes(x = Index, y = GDPC1, tooltip = round(GDPC1,2), data_id = GDPC1)) + 
-      geom_point_interactive(data = PTS2, aes(x = Index, y = GDPPOT, tooltip = round(GDPPOT,2), data_id = GDPPOT)) +
-      geom_point_interactive(data = PTS2, aes(x = Index, y = HPtrend, tooltip = round(HPtrend,2), data_id = HPtrend)) 
+            legend.position.inside = c(.2,.85),
+            plot.title = element_text(size = 20), # Change plot title font size
+            axis.title = element_text(size = 16), # Change axis title font size
+            axis.text = element_text(size = 12),  # Change axis text font size
+            legend.text = element_text(size = 12)) # Change legend text font size
     
-     girafe(ggobj = p)
-    
+    girafe(ggobj = p,
+           width_svg = 9, 
+           height_svg = 6,
+           options = list(opts_tooltip(use_fill = TRUE),
+                          opts_sizing(rescale = TRUE)))
   })
   
+# SR Plot:
   output$PLOT2 <- renderGirafe({
     
-    mindate <- which(quarter_labels == input$quarter_range[1])
-    maxdate <- which(quarter_labels == input$quarter_range[2])
+    DAT2 <- filtered_data()
+    labels <- filtered_quarter_labels()
+    LR_choice <- LTID()
     
-    DAT2 <- as.data.frame(DAT1[mindate:maxdate, ])
+    req(input$quarter_date)
+    vdate_idx <- match(input$quarter_date, labels)
+    if(is.na(vdate_idx)) vdate_idx <- 1  # fallback
+    PTS2 <- DAT2[vdate_idx, ]
     
-    vdate   <- which(quarter_labels[mindate:maxdate] == input$quarter_date)
-    PTS2 <- as.data.frame(DAT2[vdate, ])
+    breaks1 <- c("")
+    values1 <- c("")
     
-    p2 <-  ggplot() + 
-      geom_line(data = DAT2, aes(x = Index,y = POTGAP, color = "GDP - Potential"), linewidth = 0.5) + 
-      geom_line(data = DAT2, aes(x = Index,y = HPcycle, color = "GDP - Trend"), linewidth = 0.5) +
-      geom_hline(yintercept = 0, linetype = "dashed") + 
+    p <- ggplot() +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+      geom_vline_interactive(xintercept = DAT2$Index[vdate_idx], linetype = "dotted")
+      
+    if ("POT" %in% LR_choice) {
+      p <- p + 
+        geom_line(data = DAT2, aes(x = Index, y = POTGAP, color = "GDP - Potential"), linewidth = 0.5) +
+        geom_point_interactive(data = PTS2, aes(x = Index, y = POTGAP, tooltip = paste("GDP - Potential", "<br>Value:", round(POTGAP,2)), data_id = POTGAP), color = "darkred") 
+        
+      breaks1 <- c(breaks1,"GDP - Potential")
+      values1 <- c(values1,"GDP - Potential" = "darkred")
+    }
+    if ("HPT" %in% LR_choice) {
+      p <- p + 
+        geom_line(data = DAT2, aes(x = Index, y = HPcycle, color = "GDP - Quarterly Trend"), linewidth = 0.5) +
+        geom_point_interactive(data = PTS2, aes(x = Index, y = HPcycle, tooltip = paste("GDP - Quarterly Trend", "<br>Value:", round(HPcycle,2)), data_id = HPcycle), color = "steelblue") 
+        
+      breaks1 <- c(breaks1,"GDP - Quarterly Trend")
+      values1 <- c(values1,"GDP - Quarterly Trend" = "steelblue")
+    }
+    if ("HPTC" %in% LR_choice) {
+      p <- p + 
+        geom_line(data = DAT2, aes(x = Index, y = HPcycleC, color = 'GDP - Credit Trend'), linewidth = 0.5) +
+        geom_point_interactive(data = PTS2, aes(x = Index, y = HPcycleC, tooltip = paste("GDP - Credit Trend", "<br>Value:", round(HPcycleC,2)), data_id = HPcycleC), color = "springgreen") 
+      
+      breaks1 <- c(breaks1,"GDP - Credit Trend")
+      values1 <- c(values1,"GDP - Credit Trend" = "springgreen")
+    }
+    
+    p <- p +
       geom_rect(data = recession, 
                 aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf),
                 fill = "blue", alpha = 0.15) + 
-      xlim(DAT1$Index[mindate],DAT1$Index[maxdate]) + 
+      xlim(DAT2$Index[1], DAT2$Index[nrow(DAT2)]) +
+      scale_color_manual(name = "Data Lines:", breaks = breaks1, values = values1) +
       labs(
         title = "Real Gross Domestic Product",
         caption = "Source: Federal Reserve Bank of St. Louis Database (FRED)",
-        x = "", y = "Billions of Chained 2017 Dollars") + 
-      scale_color_manual(breaks=c('GDP - Potential','GDP - Trend'),
-                         values=c('GDP - Potential' = 'darkred',
-                                  'GDP - Trend' = 'steelblue')) +
+        x = "", y = "Billions of Chained 2017 Dollars") +
       theme_grey() +
       theme(legend.title = element_blank(), legend.position = "inside", 
-                          legend.position.inside = c(.2,.1)) + 
-      geom_vline_interactive(xintercept = DAT2$Index[vdate], linetype = "dotted") + 
-      geom_point_interactive(data = PTS2, aes(x = Index, y = POTGAP, tooltip = round(POTGAP,2), data_id = POTGAP)) + 
-      geom_point_interactive(data = PTS2, aes(x = Index, y = HPcycle, tooltip = round(HPcycle,2), data_id = HPcycle)) 
-    
-    girafe(ggobj = p2)
-    
-  })
-  
+            legend.position.inside = c(.2,.1),
+            plot.title = element_text(size = 20), # Change plot title font size
+            axis.title = element_text(size = 16), # Change axis title font size
+            axis.text = element_text(size = 12),  # Change axis text font size
+            legend.text = element_text(size = 12)) # Change legend text font size
+            
+    girafe(ggobj = p,
+           width_svg = 9, 
+           height_svg = 6,
+           options = list(opts_tooltip(use_fill = TRUE),
+                          opts_sizing(rescale = TRUE)))
+  })  
   
 }
 
